@@ -11,7 +11,9 @@ class Companies extends React.Component {
       return <Header as='h3'>You have no companies. Go add some!</Header>
 
     return this.props.companies.map( (c, i) => (
-      <li key={i}>{ c.title }</li>
+      <li key={i}>
+        <Link to={`/companies/${c.id}`}>{ c.title }</Link>
+      </li>
     ))
   }
 

@@ -6,7 +6,7 @@ import { setFlash } from '../actions/flash';
 import { Button, Checkbox, Container, Form, Header, Input, TextArea, } from 'semantic-ui-react';
 
 class CompanyForm extends React.Component {
-  state = { title: '', description: '', location: '', position: '', positionDetails: '', applied: '', fireRedirect: false, };
+  state = { title: '', description: '', location: '', position: '', positionDetails: '', applied: '', };
 
   handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
@@ -19,7 +19,7 @@ class CompanyForm extends React.Component {
     axios.post('/api/companies/new', { title, description, location, position, position_details: positionDetails, applied })
       .then( res => {
         this.props.dispatch(setFlash('Company added.', 'green'));
-        this.setState({ fireRedirect: true, });
+        this.props.history.push('/companies');
       })
       .catch( err => {
         this.props.dispatch(setFlash('Error. Please try again later.', 'red'));
@@ -28,7 +28,6 @@ class CompanyForm extends React.Component {
 
   render() {
     const { from } = this.props.location.state || '/';
-    const { fireRedirect, } = this.state
 
     return(
       <Container>
@@ -83,11 +82,6 @@ class CompanyForm extends React.Component {
           </Form.Field>
           <Button type='submit'>Submit</Button>
         </Form>
-        {
-          fireRedirect && (
-            <Redirect to={ from || '/companies' } />
-          )
-        }
       </Container>
     );
   };

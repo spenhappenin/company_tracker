@@ -1,6 +1,7 @@
 import React from 'react';
 import AuthRoute from './AuthRoute';
 import CompanyForm from './CompanyForm';
+import Company from './Company';
 import FetchCompanies from './FetchCompanies';
 import FetchUser from './FetchUser';
 import Flash from './Flash';
@@ -23,8 +24,8 @@ class App extends React.Component {
             <Route exact path='/' component={Home} />
             <AuthRoute exact path='/login' component={Login} />
             <AuthRoute exact path='/register' component={Register} />
-            <ProtectedRoute exact path='/companies' component={FetchCompanies} />
             <ProtectedRoute exact path='/companies/new' component={CompanyForm} />
+            <ProtectedRoute path='/companies' component={FetchCompanies} />
             <Route component={NoMatch} />
           </Switch>
         </FetchUser>
