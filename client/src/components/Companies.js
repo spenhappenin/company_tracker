@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { setFlash, } from '../actions/flash';
 import { Container, Header, } from 'semantic-ui-react';
 
@@ -10,7 +11,7 @@ class Companies extends React.Component {
       return <Header as='h3'>You have no companies. Go add some!</Header>
 
     return this.props.companies.map( (c, i) => (
-      <Header as='h4'>{ c.title }</Header>
+      <li key={i}>{ c.title }</li>
     ))
   }
 
@@ -19,7 +20,10 @@ class Companies extends React.Component {
       <Container>
         <br />
         <Header as='h1'>Companies</Header>
-        { this.displayCompanies() }
+        <Link to='/companies/new'>Add Company</Link>
+        <ul>
+          { this.displayCompanies() }
+        </ul>
       </Container>
     )
   }
