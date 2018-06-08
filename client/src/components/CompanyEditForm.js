@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { setFlash } from '../actions/flash';
@@ -38,6 +39,10 @@ class CompanyEditForm extends React.Component {
       })
   };
 
+  handleQuill = (value, name) => {
+    this.setState({ [name]: value });
+  };
+
   render() {
     const { title, description, location, position, position_details, applied, } = this.state;
 
@@ -56,7 +61,16 @@ class CompanyEditForm extends React.Component {
             value={title}
             onChange={this.handleChange}
           />
-          <Form.Field
+          <label>Description</label>
+          <ReactQuill
+            value={description}
+            name='description'
+            label='Description'
+            placeholder='The company is all about culture and...'
+            required
+            onChange={(value) => this.handleQuill(value, 'description')}
+          />
+          {/* <Form.Field
             name='description'
             control={TextArea}
             label='Description'
@@ -64,7 +78,7 @@ class CompanyEditForm extends React.Component {
             required
             value={description}
             onChange={this.handleChange}
-          />
+          /> */}
           <Form.Field
             name='location'
             control={Input}
@@ -82,14 +96,24 @@ class CompanyEditForm extends React.Component {
             value={position}
             onChange={this.handleChange}
           />
-          <Form.Field
+          <label>Position Details</label>
+          <ReactQuill
+            value={position_details}
+            name='positionDetails'
+            label='Description'
+            placeholder='Ruby on Rails job that...'
+            required
+            onChange={(value) => this.handleQuill(value, 'positionDetails')}
+          />
+          <br />
+          {/* <Form.Field
             name='position_details'
             control={TextArea}
             label='Position Details'
             placeholder='Ruby on Rails job that...'
             value={position_details}
             onChange={this.handleChange}
-          />
+          /> */}
           <Form.Field>
             <Checkbox
               name='applied'

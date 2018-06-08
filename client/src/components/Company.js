@@ -1,4 +1,5 @@
 import React from 'react';
+import GenerateHtml from './GenerateHtml';
 import { Link, } from 'react-router-dom';
 import { Button, Container, Header, Icon, } from 'semantic-ui-react';
 
@@ -16,7 +17,7 @@ class Company extends React.Component {
           <Header as='h5'>Position:</Header>
           <p>{ company.position }</p>
           <Header as='h5'>Position Details:</Header>
-          <p>{ company.position_details }</p>
+          <GenerateHtml text={company.position_details} />
         </div>
       );
     };
@@ -32,7 +33,7 @@ class Company extends React.Component {
         <br />
         <Header as='h2'>{ company.title }</Header>
         <Header as='h5'>Company Description:</Header>
-        <p>{ company.description }</p>
+        <GenerateHtml text={company.description} />
         <Header as='h5'>Location:</Header>
         <p>{ company.location }</p>
         <p>Applied? { company.applied ? <Icon name='check' color='green' size='large' /> : <Icon name='delete' color='red' size='large' /> }</p>

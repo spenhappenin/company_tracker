@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { setFlash } from '../actions/flash';
@@ -8,7 +9,13 @@ import { Button, Checkbox, Container, Form, Header, Input, TextArea, } from 'sem
 class CompanyForm extends React.Component {
   state = { title: '', description: '', location: '', position: '', positionDetails: '', applied: '', };
 
-  handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  handleQuill = (value, name) => {
+    this.setState({ [name]: value });
+  };
 
   toggleCheckbox = () => this.setState({ applied: !this.state.applied });
 
@@ -41,14 +48,16 @@ class CompanyForm extends React.Component {
             required
             onChange={this.handleChange}
           />
-          <Form.Field 
+          <label>Description</label>
+          <ReactQuill 
+            value={this.state.description}
             name='description'
-            control={TextArea}
             label='Description'
             placeholder='The company is all about culture and...'
             required
-            onChange={this.handleChange}
+            onChange={(value) => this.handleQuill(value, 'description')}
           />
+          <br />
           <Form.Field
             name='location'
             control={Input}
@@ -64,13 +73,16 @@ class CompanyForm extends React.Component {
             placeholder='Front End Developer'
             onChange={this.handleChange}
           />
-          <Form.Field
+          <label>Position Details</label>
+          <ReactQuill
+            value={this.state.positionDetails}
             name='positionDetails'
-            control={TextArea}
-            label='Position Details'
+            label='Description'
             placeholder='Ruby on Rails job that...'
-            onChange={this.handleChange}
+            required
+            onChange={(value) => this.handleQuill(value, 'positionDetails')}
           />
+          <br />
           <Form.Field>
             <Checkbox 
               name='applied'
