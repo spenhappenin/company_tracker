@@ -5,18 +5,30 @@ import { Redirect } from 'react-router-dom';
 import { setFlash } from '../actions/flash';
 import { Button, Checkbox, Container, Form, Header, Input, TextArea, } from 'semantic-ui-react';
 
-class CompanyForm extends React.Component {
-  state = { title: '', description: '', location: '', position: '', positionDetails: '', applied: '', };
+class CompanyEditForm extends React.Component {
+  state = { title: '', description: '', location: '', position: '', position_details: '', applied: false, setFormData: false, };
+
+  componentDidMount() {
+    this.setState({ company: this.props.companies.find( c => c.id === parseInt(this.props.match.params.id) ), });
+  };
+
+  componentDidUpdate() {
+    const { company: { title, description, location, position, position_details, applied, }, setFormData, } = this.state;
+
+    if( this.state.setFormData !== true ) {
+      this.setState({ title, description, location, position, position_details, applied, setFormData: true, });
+    }
+  };
 
   handleChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   toggleCheckbox = () => this.setState({ applied: !this.state.applied });
 
   handleSubmit = (e) => {
-    const { title, description, location, position, positionDetails, applied, } = this.state;
+    const { title, description, location, position, position_details, applied, company: { id } } = this.state;
 
     e.preventDefault();
-    axios.post('/api/companies/new', { title, description, location, position, position_details: positionDetails, applied })
+    axios.put(`/api/companies/${id}/edit`, { title, description, location, position, position_details: position_details, applied })
       .then( res => {
         this.props.dispatch(setFlash('Company added.', 'green'));
         this.props.history.push('/companies');
@@ -27,10 +39,12 @@ class CompanyForm extends React.Component {
   };
 
   render() {
-    return(
+    const { title, description, location, position, position_details, applied, } = this.state;
+
+    return (
       <Container>
         <br />
-        <Header as='h1'>New Company</Header>
+        <Header as='h1'>Edit Company</Header>
         <br />
         <Form onSubmit={this.handleSubmit}>
           <Form.Field
@@ -39,14 +53,16 @@ class CompanyForm extends React.Component {
             label='Title'
             placeholder='Cool Company Name'
             required
+            value={title}
             onChange={this.handleChange}
           />
-          <Form.Field 
+          <Form.Field
             name='description'
             control={TextArea}
             label='Description'
             placeholder='The company is all about culture and...'
             required
+            value={description}
             onChange={this.handleChange}
           />
           <Form.Field
@@ -55,6 +71,7 @@ class CompanyForm extends React.Component {
             label='Location'
             placeholder='Lehi, UT'
             required
+            value={location}
             onChange={this.handleChange}
           />
           <Form.Field
@@ -62,20 +79,23 @@ class CompanyForm extends React.Component {
             control={Input}
             label='Position'
             placeholder='Front End Developer'
+            value={position}
             onChange={this.handleChange}
           />
           <Form.Field
-            name='positionDetails'
+            name='position_details'
             control={TextArea}
             label='Position Details'
             placeholder='Ruby on Rails job that...'
+            value={position_details}
             onChange={this.handleChange}
           />
           <Form.Field>
-            <Checkbox 
+            <Checkbox
               name='applied'
               onChange={this.toggleCheckbox}
-              label='Applied' 
+              label='Applied'
+              checked={applied}
             />
           </Form.Field>
           <Button type='submit'>Submit</Button>
@@ -85,4 +105,4 @@ class CompanyForm extends React.Component {
   };
 };
 
-export default connect()(CompanyForm);
+export default connect()(CompanyEditForm);

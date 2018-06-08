@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Header, Icon, } from 'semantic-ui-react';
+import { Link, } from 'react-router-dom';
+import { Button, Container, Header, Icon, } from 'semantic-ui-react';
 
 class Company extends React.Component {
   state = { company: null, };
@@ -22,7 +23,8 @@ class Company extends React.Component {
   };
 
   render() {
-    const { company, } = this.state;
+    const { company } = this.state;
+    const { handleDelete, } = this.props;
 
     if (company === null) return null;
     return(
@@ -35,6 +37,17 @@ class Company extends React.Component {
         <p>{ company.location }</p>
         <p>Applied? { company.applied ? <Icon name='check' color='green' size='large' /> : <Icon name='delete' color='red' size='large' /> }</p>
         { this.displayAppliedInfo(company) }
+        <br />
+        <Button.Group icon>
+          <Link to={`/companies/${company.id}/edit`}>
+            <Button color='yellow'>
+              <Icon name='pencil' /> Edit
+            </Button>
+          </Link>
+          <Button color='red' onClick={() => handleDelete(company.id)}>
+            <Icon name='trash' /> Delete
+          </Button>
+        </Button.Group>
       </Container>
     );
   };

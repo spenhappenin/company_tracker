@@ -2,8 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import Companies from './Companies';
 import Company from './Company';
+import CompanyEditForm from './CompanyEditForm';
+import CompanyForm from './CompanyForm';
 import ProtectedRoute from './ProtectedRoute';
 import { setFlash, } from '../actions/flash';
+import { setHeaders, } from '../actions/headers';
 import { Switch, } from 'react-router-dom';
 
 class FetchCompanies extends React.Component {
@@ -17,6 +20,19 @@ class FetchCompanies extends React.Component {
       .catch(res => {
         this.props.dispatch(setFlash('Error...', 'red'));
       })
+  };
+
+  handleDelete = (id) => {
+    axios.delete(`/api/companies/${id}`)
+      .then( res => {
+        this.props.dispatch(setFlash('Company Deleted', 'green'));
+        this.props.dispatch(setHeaders(res.headers));
+        this.props.history.push('/companies');
+      })
+      .catch( err => {
+        this.props.dispatch(setFlash('Error deleting company...', 'red'));
+        this.props.dispatch(setHeaders(err.headers))
+      });
   };
 
   render() {
@@ -33,6 +49,13 @@ class FetchCompanies extends React.Component {
           exact
           path='/companies/:id'
           component={Company}
+          companies={this.state.companies}
+          handleDelete={this.handleDelete}
+        />
+        <ProtectedRoute
+          exact
+          path='/companies/:id/edit'
+          component={CompanyEditForm}
           companies={this.state.companies}
         />
       </Switch>
