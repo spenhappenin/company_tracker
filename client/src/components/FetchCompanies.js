@@ -10,7 +10,7 @@ import { setHeaders, } from '../actions/headers';
 import { Switch, } from 'react-router-dom';
 
 class FetchCompanies extends React.Component {
-  state = { companies: [], loaded: false };
+  state = { companies: [], loaded: false, };
 
   componentDidMount() {
     axios.get('/api/companies')
@@ -21,6 +21,11 @@ class FetchCompanies extends React.Component {
         this.props.dispatch(setFlash('Error...', 'red'));
       })
   };
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   debugger
+  //   return true
+  // };
 
   handleDelete = (id) => {
     axios.delete(`/api/companies/${id}`)

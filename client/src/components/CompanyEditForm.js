@@ -26,16 +26,17 @@ class CompanyEditForm extends React.Component {
   toggleCheckbox = () => this.setState({ applied: !this.state.applied });
 
   handleSubmit = (e) => {
-    const { title, description, location, position, position_details, applied, company: { id } } = this.state;
+    const { dispatch, history, } = this.props;
+    const { title, description, location, position, position_details, applied, company: { id, }, } = this.state;
 
     e.preventDefault();
     axios.put(`/api/companies/${id}/edit`, { title, description, location, position, position_details: position_details, applied })
       .then( res => {
-        this.props.dispatch(setFlash('Company added.', 'green'));
-        this.props.history.push('/companies');
+        dispatch(setFlash('Company added.', 'green'));
+        history.push('/companies');
       })
       .catch( err => {
-        this.props.dispatch(setFlash('Error. Please try again later.', 'red'));
+        dispatch(setFlash('Error. Please try again later.', 'red'));
       })
   };
 
@@ -70,15 +71,6 @@ class CompanyEditForm extends React.Component {
             required
             onChange={(value) => this.handleQuill(value, 'description')}
           />
-          {/* <Form.Field
-            name='description'
-            control={TextArea}
-            label='Description'
-            placeholder='The company is all about culture and...'
-            required
-            value={description}
-            onChange={this.handleChange}
-          /> */}
           <Form.Field
             name='location'
             control={Input}
@@ -103,17 +95,9 @@ class CompanyEditForm extends React.Component {
             label='Description'
             placeholder='Ruby on Rails job that...'
             required
-            onChange={(value) => this.handleQuill(value, 'positionDetails')}
+            onChange={(value) => this.handleQuill(value, 'position_details')}
           />
           <br />
-          {/* <Form.Field
-            name='position_details'
-            control={TextArea}
-            label='Position Details'
-            placeholder='Ruby on Rails job that...'
-            value={position_details}
-            onChange={this.handleChange}
-          /> */}
           <Form.Field>
             <Checkbox
               name='applied'
@@ -124,6 +108,9 @@ class CompanyEditForm extends React.Component {
           </Form.Field>
           <Button type='submit'>Submit</Button>
         </Form>
+        <br />
+        <br />
+        <br />
       </Container>
     );
   };

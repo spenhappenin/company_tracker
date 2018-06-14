@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment, } from 'react';
 import GenerateHtml from './GenerateHtml';
 import { Link, } from 'react-router-dom';
-import { Button, Container, Header, Icon, } from 'semantic-ui-react';
+import styled from 'styled-components';
+import { Button, Container, Header, Icon, Segment, } from 'semantic-ui-react';
 
 class Company extends React.Component {
   state = { company: null, };
@@ -13,12 +14,16 @@ class Company extends React.Component {
   displayAppliedInfo = (company) => {
     if (company.applied) {
       return(
-        <div>
-          <Header as='h5'>Position:</Header>
-          <p>{ company.position }</p>
-          <Header as='h5'>Position Details:</Header>
-          <GenerateHtml text={company.position_details} />
-        </div>
+        <Fragment>
+          <Field>
+            <Header as='h5' style={{ marginBottom: 0, marginRight: '10px', }}>Position:</Header>
+            <p>{ company.position }</p>
+          </Field>
+          <Header as='h5' style={{ marginBottom: 0, marginRight: '10px', }}>Position Details:</Header>
+          <Segment>
+            <GenerateHtml text={company.position_details} />
+          </Segment>
+        </Fragment>
       );
     };
   };
@@ -33,10 +38,18 @@ class Company extends React.Component {
         <br />
         <Header as='h2'>{ company.title }</Header>
         <Header as='h5'>Company Description:</Header>
-        <GenerateHtml text={company.description} />
-        <Header as='h5'>Location:</Header>
-        <p>{ company.location }</p>
-        <p>Applied? { company.applied ? <Icon name='check' color='green' size='large' /> : <Icon name='delete' color='red' size='large' /> }</p>
+        <Segment>
+          <GenerateHtml text={company.description} />
+        </Segment>
+        <Field>
+          <Header as='h5' style={{ marginBottom: 0, marginRight: '10px', }}>Location:</Header>
+          <p>{ company.location }</p>
+        </Field>
+        <br />
+        <Field>
+          <p><b>Applied?</b> { company.applied ? <Icon name='check' color='green' size='large' /> : <Icon name='delete' color='red' size='large' /> }</p>
+        </Field>
+        <br />
         { this.displayAppliedInfo(company) }
         <br />
         <Button.Group icon>
@@ -49,9 +62,18 @@ class Company extends React.Component {
             <Icon name='trash' /> Delete
           </Button>
         </Button.Group>
+        <br />
+        <br />
+        <br />
       </Container>
     );
   };
 };
+
+const Field = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
 export default Company;
