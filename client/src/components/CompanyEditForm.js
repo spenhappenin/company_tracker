@@ -7,17 +7,17 @@ import { setFlash } from '../actions/flash';
 import { Button, Checkbox, Container, Form, Header, Input, TextArea, } from 'semantic-ui-react';
 
 class CompanyEditForm extends React.Component {
-  state = { title: '', description: '', location: '', position: '', position_details: '', applied: false, setFormData: false, };
+  state = { applied: false, contacts: '', description: '', location: '', position: '', position_details: '', setFormData: false, title: '', };
 
   componentDidMount() {
     this.setState({ company: this.props.companies.find( c => c.id === parseInt(this.props.match.params.id) ), });
   };
 
   componentDidUpdate() {
-    const { company: { title, description, location, position, position_details, applied, }, setFormData, } = this.state;
+    const { company: { applied, contacts, description, location, position, position_details, title, }, setFormData, } = this.state;
 
     if( this.state.setFormData !== true ) {
-      this.setState({ title, description, location, position, position_details, applied, setFormData: true, });
+      this.setState({ applied, contacts, description, location, position, position_details, title, setFormData: true, });
     }
   };
 
@@ -27,8 +27,8 @@ class CompanyEditForm extends React.Component {
 
   handleSubmit = (e) => {
     const { dispatch, history, match, updateCompanies, } = this.props;
-    const { title, description, location, position, position_details, applied, company: { id, }, } = this.state;
-    const company = { id, title, description, location, position, position_details: position_details, applied };
+    const { applied, contacts, description, location, position, position_details, title, company: { id, }, } = this.state;
+    const company = { applied, contacts, description, id, location, position, position_details: position_details, title, };
 
     e.preventDefault();
     axios.put(`/api/companies/${id}/edit`, company)
@@ -47,7 +47,7 @@ class CompanyEditForm extends React.Component {
   };
 
   render() {
-    const { title, description, location, position, position_details, applied, } = this.state;
+    const { applied, contacts, description, location, position, position_details, title, } = this.state;
 
     return (
       <Container>
@@ -82,6 +82,14 @@ class CompanyEditForm extends React.Component {
             value={location}
             onChange={this.handleChange}
           />
+          <label>Company Contacts</label>
+          <ReactQuill
+            value={contacts}
+            name='contacts'
+            placeholder='Company contact information...'
+            onChange={(value) => this.handleQuill(value, 'contacts')}
+          />
+          <br />
           <Form.Field
             name='position'
             control={Input}

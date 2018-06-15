@@ -7,7 +7,7 @@ import { setFlash } from '../actions/flash';
 import { Button, Checkbox, Container, Form, Header, Input, TextArea, } from 'semantic-ui-react';
 
 class CompanyForm extends React.Component {
-  state = { title: '', description: '', location: '', position: '', positionDetails: '', applied: '', };
+  state = { applied: '', contacts: '', description: '', location: '', position: '', positionDetails: '', title: '', };
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -20,10 +20,10 @@ class CompanyForm extends React.Component {
   toggleCheckbox = () => this.setState({ applied: !this.state.applied });
 
   handleSubmit = (e) => {
-    const { title, description, location, position, positionDetails, applied, } = this.state;
+    const { applied, contacts, description, location, position, positionDetails, title, } = this.state;
 
     e.preventDefault();
-    axios.post('/api/companies/new', { title, description, location, position, position_details: positionDetails, applied })
+    axios.post('/api/companies/new', { applied, contacts, description, location, position, position_details: positionDetails, title, })
       .then( res => {
         this.props.dispatch(setFlash('Company added.', 'green'));
         this.props.history.push('/companies');
@@ -65,6 +65,15 @@ class CompanyForm extends React.Component {
             placeholder='Lehi, UT'
             required
             onChange={this.handleChange}
+          />
+          <label>Contacts</label>
+          <ReactQuill
+            value={this.state.contacts}
+            name='contacts'
+            label='Contacts'
+            placeholder='Lits of contact information...'
+            required
+            onChange={(value) => this.handleQuill(value, 'contacts')}
           />
           <Form.Field
             name='position'

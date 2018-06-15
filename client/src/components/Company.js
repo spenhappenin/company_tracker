@@ -21,7 +21,12 @@ class Company extends React.Component {
           </Field>
           <Header as='h5' style={{ marginBottom: 0, marginRight: '10px', }}>Position Details:</Header>
           <Segment>
-            <GenerateHtml text={company.position_details} />
+            {
+              company.position_details ?
+                <GenerateHtml text={company.position_details} />
+                :
+                <p>No company details added...</p>
+            }
           </Segment>
         </Fragment>
       );
@@ -29,7 +34,7 @@ class Company extends React.Component {
   };
 
   render() {
-    const { company } = this.state;
+    const { company, } = this.state;
     const { handleDelete, } = this.props;
 
     if (company === null) return null;
@@ -39,12 +44,26 @@ class Company extends React.Component {
         <Header as='h2'>{ company.title }</Header>
         <Header as='h5'>Company Description:</Header>
         <Segment>
-          <GenerateHtml text={company.description} />
+          {
+            company.description ?
+              <GenerateHtml text={company.description} />
+            :
+              <p>No company description added...</p>
+          }
         </Segment>
         <Field>
           <Header as='h5' style={{ marginBottom: 0, marginRight: '10px', }}>Location:</Header>
           <p>{ company.location }</p>
         </Field>
+        <Header as='h5'>Company Contacts:</Header>
+        <Segment>
+          {
+            company.contacts ?
+              <GenerateHtml text={company.contacts} />
+            :
+              <p>No company contacts added...</p>
+          }
+        </Segment>
         <br />
         <Field>
           <p><b>Applied?</b> { company.applied ? <Icon name='check' color='green' size='large' /> : <Icon name='delete' color='red' size='large' /> }</p>
