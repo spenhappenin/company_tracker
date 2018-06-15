@@ -47,17 +47,20 @@ class FetchCompanies extends React.Component {
   };
 
   handleDelete = (id) => {
-    axios.delete(`/api/companies/${id}`)
-      .then( res => {
-        this.props.dispatch(setFlash('Company Deleted', 'green'));
-        this.props.dispatch(setHeaders(res.headers));
-        this.setState({ companies: this.state.companies.filter( c => c.id !== id) });
-        this.props.history.push('/companies');
-      })
-      .catch( err => {
-        this.props.dispatch(setFlash('Error deleting company...', 'red'));
-        this.props.dispatch(setHeaders(err.headers))
-      });
+    let confirm = window.confirm('Are you sure you want to delete?');
+    if (confirm) {
+      axios.delete(`/api/companies/${id}`)
+        .then( res => {
+          this.props.dispatch(setFlash('Company Deleted', 'green'));
+          this.props.dispatch(setHeaders(res.headers));
+          this.setState({ companies: this.state.companies.filter( c => c.id !== id) });
+          this.props.history.push('/companies');
+        })
+        .catch( err => {
+          this.props.dispatch(setFlash('Error deleting company...', 'red'));
+          this.props.dispatch(setHeaders(err.headers))
+        });
+    }
   };
 
   render() {
