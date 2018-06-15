@@ -14,6 +14,8 @@ gem 'devise_token_auth'
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry'
+  # Use to generate fake data in the db to test with
+  gem 'faker'
 end
 
 group :development do

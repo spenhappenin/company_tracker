@@ -22,6 +22,30 @@ class FetchCompanies extends React.Component {
       })
   };
 
+  updateCompanies = (company) => {
+    const compare = (a, b) => {
+      const titleA = a.title.toUpperCase();
+      const titleB = b.title.toUpperCase();
+      let comparison = 0;
+      if (titleA > titleB) {
+        comparison = 1;
+      } else if (titleA < titleB) {
+        comparison = -1;
+      }
+      return comparison;
+    };
+
+    let companies = this.state.companies.map( c => {
+      if (c.id === company.id) {
+        return company;
+      } else {
+        return c;
+      }
+    })
+    companies = companies.sort(compare);
+    this.setState({ companies });
+  };
+
   handleDelete = (id) => {
     axios.delete(`/api/companies/${id}`)
       .then( res => {
@@ -57,6 +81,7 @@ class FetchCompanies extends React.Component {
           exact
           path='/companies/:id/edit'
           component={CompanyEditForm}
+          updateCompanies={this.updateCompanies.bind(this)}
           companies={this.state.companies}
         />
       </Switch>

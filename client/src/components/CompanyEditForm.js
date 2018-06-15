@@ -26,13 +26,15 @@ class CompanyEditForm extends React.Component {
   toggleCheckbox = () => this.setState({ applied: !this.state.applied });
 
   handleSubmit = (e) => {
-    const { dispatch, history, } = this.props;
+    const { dispatch, history, match, updateCompanies, } = this.props;
     const { title, description, location, position, position_details, applied, company: { id, }, } = this.state;
+    const company = { id, title, description, location, position, position_details: position_details, applied };
 
     e.preventDefault();
-    axios.put(`/api/companies/${id}/edit`, { title, description, location, position, position_details: position_details, applied })
+    axios.put(`/api/companies/${id}/edit`, company)
       .then( res => {
-        dispatch(setFlash('Company added.', 'green'));
+        dispatch(setFlash('Company updated.', 'green'));
+        updateCompanies(company);
         history.push('/companies');
       })
       .catch( err => {

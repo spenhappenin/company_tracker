@@ -17,11 +17,11 @@ ActiveRecord::Schema.define(version: 20180605022150) do
 
   create_table "companies", force: :cascade do |t|
     t.string "title", null: false
-    t.text "description", null: false
+    t.text "description"
     t.boolean "applied"
     t.string "position"
     t.text "position_details"
-    t.string "location", null: false
+    t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"

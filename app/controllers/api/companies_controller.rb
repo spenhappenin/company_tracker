@@ -5,23 +5,21 @@ class Api::CompaniesController < ApplicationController
   end
 
   def create
-    company = current_user.companies.create(company_params)
-    render json: company
+    render json: current_user.companies.create(company_params)
   end
 
   def update
-    company = Company.find(params[:id])
-    company.update(company_params)
-    render json: company
+    render json: Company.find(params[:id]).update(company_params)
   end
 
   def destroy
-    company = Company.find(params[:id])
-    company.destroy
+    Company.find(params[:id]).destroy
   end
 
   private
+
     def company_params
       params.require(:company).permit(:title, :description, :location, :applied, :position, :position_details)
     end
+    
 end
