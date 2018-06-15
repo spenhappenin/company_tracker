@@ -22,16 +22,12 @@ class FetchCompanies extends React.Component {
       })
   };
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   debugger
-  //   return true
-  // };
-
   handleDelete = (id) => {
     axios.delete(`/api/companies/${id}`)
       .then( res => {
         this.props.dispatch(setFlash('Company Deleted', 'green'));
         this.props.dispatch(setHeaders(res.headers));
+        this.setState({ companies: this.state.companies.filter( c => c.id !== id) });
         this.props.history.push('/companies');
       })
       .catch( err => {
