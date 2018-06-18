@@ -14,10 +14,10 @@ class FetchCompanies extends React.Component {
 
   componentDidMount() {
     axios.get('/api/companies')
-      .then(res => {
+      .then( res => {
         this.setState({ companies: res.data, loaded: true });
       })
-      .catch(res => {
+      .catch( res => {
         this.props.dispatch(setFlash('Error...', 'red'));
       })
   };

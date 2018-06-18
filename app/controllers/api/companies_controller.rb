@@ -17,7 +17,6 @@ class Api::CompaniesController < ApplicationController
   end
 
   private
-
     def company_params
       params.require(:company).permit(:applied, :contacts, :description, :location, :position, :position_details, :title)
     end

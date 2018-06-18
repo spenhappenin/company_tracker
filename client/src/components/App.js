@@ -3,6 +3,7 @@ import AuthRoute from './AuthRoute';
 import CompanyForm from './CompanyForm';
 import Company from './Company';
 import FetchCompanies from './FetchCompanies';
+import FetchTopics from './FetchTopics';
 import FetchUser from './FetchUser';
 import Flash from './Flash';
 import Home from './Home';
@@ -11,6 +12,7 @@ import NavBar from './NavBar';
 import NoMatch from './NoMatch';
 import ProtectedRoute from './ProtectedRoute';
 import Register from './Register';
+import TopicNew from './TopicNew';
 import { Switch, Route } from 'react-router-dom';
 
 class App extends React.Component {
@@ -26,6 +28,8 @@ class App extends React.Component {
             <AuthRoute exact path='/register' component={Register} />
             <ProtectedRoute exact path='/companies/new' component={CompanyForm} />
             <ProtectedRoute path='/companies' component={FetchCompanies} />
+            <ProtectedRoute path='/topics/new' component={TopicNew} />
+            <ProtectedRoute path='/topics' component={FetchTopics} />
             <Route component={NoMatch} />
           </Switch>
         </FetchUser>

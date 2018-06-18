@@ -6,7 +6,7 @@ import { handleLogout } from '../actions/auth';
 
 class NavBar extends Component {
   rightNavs = () => {
-    const { user, dispatch, history } = this.props;
+    const { user, dispatch, history, } = this.props;
 
     if (user.id) {
       return (
@@ -39,6 +39,9 @@ class NavBar extends Component {
           </Link>
           <Link to='/companies'>
             <Menu.Item name='My Companies' />
+          </Link>
+          <Link to='/topics'>
+            <Menu.Item name='My Topics' />
           </Link>
           { this.rightNavs() }
         </Menu>

@@ -5,38 +5,38 @@ import { Link, } from 'react-router-dom';
 import { setFlash, } from '../actions/flash';
 import { Button, Container, Header, Icon, Search, } from 'semantic-ui-react';
 
-class Companies extends React.Component {
+class Topics extends React.Component {
   state = { searchText: '', };
 
-  displayCompanies = () => {
-    if (this.props.companies.length <= 0)
-      return <Header as='h3'>You have no companies. Go add some!</Header>
+  displayTopics = () => {
+    if (this.props.topics.length <= 0)
+      return <Header as='h3'>You have no topics. Go add some!</Header>
 
-    return this.props.companies.map( (c, i) => (
-      <StyledCompanyTitle key={i} to={`/companies/${c.id}`}>
-        { c.title }
-      </StyledCompanyTitle>
+    return this.props.topics.map((t, i) => (
+      <StyledTopicTitle key={i} to={`/topics/${t.id}`}>
+        {t.title}
+      </StyledTopicTitle>
     ));
   };
 
   render() {
-    return(
+    return (
       <Container>
         <br />
-        <Header as='h1'>Companies</Header>
+        <Header as='h1'>Topics</Header>
         <div style={{ display: 'flex', }}>
           <Search style={{ marginRight: '20px', }} />
-          <Link to='/companies/new'>
+          <Link to='/topics/new'>
             <Button color='blue'>
               <Icon name='add' />
-              Add Company
+              Add Topic
             </Button>
           </Link>
         </div>
         <br />
         <br />
         <div style={{ display: 'inline-block' }}>
-          { this.displayCompanies() }
+          {this.displayTopics()}
         </div>
         <br />
         <br />
@@ -47,7 +47,7 @@ class Companies extends React.Component {
   };
 };
 
-const StyledCompanyTitle = styled(Link)`
+const StyledTopicTitle = styled(Link) `
   font-size: 20px;
   font-weight: 400;
   color: black;
@@ -55,4 +55,4 @@ const StyledCompanyTitle = styled(Link)`
   display: block;
 `;
 
-export default Companies;
+export default Topics;
