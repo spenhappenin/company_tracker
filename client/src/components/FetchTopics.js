@@ -9,12 +9,12 @@ import { setHeaders, } from '../actions/headers';
 import { Switch, } from 'react-router-dom';
 
 class FetchTopics extends React.Component {
-  state = { topics: [], loaded: false, };
+  state = { categories: [], loaded: false, topics: [], };
 
   componentDidMount() {
     axios.get('/api/topics')
       .then( res => {
-        this.setState({ topics: res.data, loaded: true });
+        this.setState({ categories: [{ text: 'Clear Search', value: '' }, ...res.data.categories], loaded: true, topics: res.data.topics, });
       })
       .catch( res => {
         this.props.dispatch(setFlash('Error...', 'red'));
@@ -67,24 +67,25 @@ class FetchTopics extends React.Component {
     return (
       <Switch>
         <ProtectedRoute
+          categories={this.state.categories}
+          component={Topics}
           exact
           path='/topics'
-          component={Topics}
           topics={this.state.topics}
         />
         <ProtectedRoute
-          exact
-          path='/topics/:id'
           component={Topic}
-          topics={this.state.topics}
+          exact
           handleDelete={this.handleDelete}
+          path='/topics/:id'
+          topics={this.state.topics}
         />
         <ProtectedRoute
+          component={TopicEditForm}
           exact
           path='/topics/:id/edit'
-          component={TopicEditForm}
-          updateTopics={this.updateTopics.bind(this)}
           topics={this.state.topics}
+          updateTopics={this.updateTopics.bind(this)}
         />
       </Switch>
     )

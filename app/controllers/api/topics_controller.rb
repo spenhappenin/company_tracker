@@ -1,7 +1,7 @@
 class Api::TopicsController < ApplicationController
 
   def my_topics 
-    render json: current_user.topics.all.order("title ASC")
+    render json: { categories: Topic.get_categories, topics: current_user.topics.all.order("title ASC") }
   end
 
   def create

@@ -3,10 +3,12 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { Link, } from 'react-router-dom';
 import { setFlash, } from '../actions/flash';
-import { Button, Container, Header, Icon, Search, } from 'semantic-ui-react';
+import { Button, Container, Header, Icon, Dropdown, } from 'semantic-ui-react';
 
 class Topics extends React.Component {
-  state = { searchText: '', };
+  state = { category: '', };
+
+  handleChange = (category) => this.setState({ category });
 
   displayTopics = () => {
     if (this.props.topics.length <= 0)
@@ -14,7 +16,7 @@ class Topics extends React.Component {
 
     return this.props.topics.map((t, i) => (
       <StyledTopicTitle key={i} to={`/topics/${t.id}`}>
-        {t.title}
+        { t.title }
       </StyledTopicTitle>
     ));
   };
@@ -25,18 +27,24 @@ class Topics extends React.Component {
         <br />
         <Header as='h1'>Topics</Header>
         <div style={{ display: 'flex', }}>
-          <Search style={{ marginRight: '20px', }} />
           <Link to='/topics/new'>
             <Button color='blue'>
               <Icon name='add' />
               Add Topic
             </Button>
           </Link>
+          <Dropdown 
+            name='category' 
+            placeholder='Select Category' 
+            selection 
+            options={this.props.categories} 
+            onChange={(e, data) => this.handleChange(data.value)}
+          />
         </div>
         <br />
         <br />
         <div style={{ display: 'inline-block' }}>
-          {this.displayTopics()}
+          { this.displayTopics() }
         </div>
         <br />
         <br />
