@@ -3,6 +3,7 @@ import axios from 'axios';
 import ProtectedRoute from './ProtectedRoute';
 import Topic from './Topic';
 import Topics from './Topics';
+import TopicEditForm from './TopicEditForm';
 import { setFlash, } from '../actions/flash';
 import { setHeaders, } from '../actions/headers';
 import { Switch, } from 'react-router-dom';
@@ -20,45 +21,45 @@ class FetchTopics extends React.Component {
       })
   };
 
-  updateCompanies = (company) => {
-    // const compare = (a, b) => {
-    //   const titleA = a.title.toUpperCase();
-    //   const titleB = b.title.toUpperCase();
-    //   let comparison = 0;
-    //   if (titleA > titleB) {
-    //     comparison = 1;
-    //   } else if (titleA < titleB) {
-    //     comparison = -1;
-    //   }
-    //   return comparison;
-    // };
+  updateTopics = (topic) => {
+    const compare = (a, b) => {
+      const titleA = a.title.toUpperCase();
+      const titleB = b.title.toUpperCase();
+      let comparison = 0;
+      if (titleA > titleB) {
+        comparison = 1;
+      } else if (titleA < titleB) {
+        comparison = -1;
+      }
+      return comparison;
+    };
 
-    // let companies = this.state.companies.map(c => {
-    //   if (c.id === company.id) {
-    //     return company;
-    //   } else {
-    //     return c;
-    //   }
-    // })
-    // companies = companies.sort(compare);
-    // this.setState({ companies });
+    let topics = this.state.topics.map( t => {
+      if (t.id === topic.id) {
+        return topic;
+      } else {
+        return t;
+      }
+    })
+    topics = topics.sort(compare);
+    this.setState({ topics });
   };
 
   handleDelete = (id) => {
-    // let confirm = window.confirm('Are you sure you want to delete?');
-    // if (confirm) {
-    //   axios.delete(`/api/companies/${id}`)
-    //     .then(res => {
-    //       this.props.dispatch(setFlash('Company Deleted', 'green'));
-    //       this.props.dispatch(setHeaders(res.headers));
-    //       this.setState({ companies: this.state.companies.filter(c => c.id !== id) });
-    //       this.props.history.push('/companies');
-    //     })
-    //     .catch(err => {
-    //       this.props.dispatch(setFlash('Error deleting company...', 'red'));
-    //       this.props.dispatch(setHeaders(err.headers))
-    //     });
-    // }
+    let confirm = window.confirm('Are you sure you want to delete?');
+    if (confirm) {
+      axios.delete(`/api/topics/${id}`)
+        .then(res => {
+          this.props.dispatch(setFlash('Topic Deleted', 'green'));
+          this.props.dispatch(setHeaders(res.headers));
+          this.setState({ topics: this.state.topics.filter( t => t.id !== id) });
+          this.props.history.push('/topics');
+        })
+        .catch(err => {
+          this.props.dispatch(setFlash('Error deleting topic...', 'red'));
+          this.props.dispatch(setHeaders(err.headers))
+        });
+    }
   };
 
   render() {
@@ -78,13 +79,13 @@ class FetchTopics extends React.Component {
           topics={this.state.topics}
           handleDelete={this.handleDelete}
         />
-        {/* <ProtectedRoute
+        <ProtectedRoute
           exact
-          path='/companies/:id/edit'
-          component={CompanyEditForm}
-          updateCompanies={this.updateCompanies.bind(this)}
-          companies={this.state.companies}
-        /> */}
+          path='/topics/:id/edit'
+          component={TopicEditForm}
+          updateTopics={this.updateTopics.bind(this)}
+          topics={this.state.topics}
+        />
       </Switch>
     )
   }

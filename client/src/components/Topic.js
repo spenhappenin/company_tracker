@@ -1,7 +1,8 @@
 import React from 'react';
 import GenerateHtml from './GenerateHtml';
 import styled from 'styled-components';
-import { Container, Header, Segment, } from 'semantic-ui-react';
+import { Link, } from 'react-router-dom';
+import { Button, Container, Header, Icon, Segment, } from 'semantic-ui-react';
 
 class Topic extends React.Component {
   state = { topic: null, };
@@ -11,6 +12,7 @@ class Topic extends React.Component {
   };
 
   render() {
+    const { handleDelete, } = this.props;
     const { topic, } = this.state;
 
     if (topic === null) return null;
@@ -32,6 +34,20 @@ class Topic extends React.Component {
               <p>No topic body added...</p>
           }
         </Segment>
+        <br />
+        <Button.Group icon>
+          <Link to={`/topics/${topic.id}/edit`}>
+            <Button color='yellow'>
+              <Icon name='pencil' /> Edit
+            </Button>
+          </Link>
+          <Button color='red' onClick={() => handleDelete(topic.id)}>
+            <Icon name='trash' /> Delete
+          </Button>
+        </Button.Group>
+        <br />
+        <br />
+        <br />
       </Container>
     );
   }

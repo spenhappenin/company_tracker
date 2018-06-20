@@ -1,7 +1,7 @@
 class Api::TopicsController < ApplicationController
 
   def my_topics 
-    render json: current_user.topics.all
+    render json: current_user.topics.all.order("title ASC")
   end
 
   def create
@@ -13,7 +13,7 @@ class Api::TopicsController < ApplicationController
   end
 
   def destroy
-    Topic.find(params[:id]).destory
+    Topic.find(params[:id]).destroy
   end
 
   private
