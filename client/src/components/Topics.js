@@ -11,14 +11,29 @@ class Topics extends React.Component {
   handleChange = (category) => this.setState({ category });
 
   displayTopics = () => {
+    const { category, } = this.state;
+
     if (this.props.topics.length <= 0)
       return <Header as='h3'>You have no topics. Go add some!</Header>
 
-    return this.props.topics.map((t, i) => (
-      <StyledTopicTitle key={i} to={`/topics/${t.id}`}>
-        { t.title }
-      </StyledTopicTitle>
-    ));
+    if (category === "") {
+      return this.props.topics.map( (t, i) => (
+        <StyledTopicTitle key={i} to={`/topics/${t.id}`}>
+          { t.title }
+        </StyledTopicTitle>
+      ));
+    } else {
+      return this.props.topics.map( (t, i) => {
+        if (category === t.category) {
+          return (
+            <StyledTopicTitle key={i} to={`/topics/${t.id}`}>
+              { t.title }
+            </StyledTopicTitle>
+          )
+        }
+      });
+    }
+      
   };
 
   render() {
